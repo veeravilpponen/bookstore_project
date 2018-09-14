@@ -1,7 +1,15 @@
 package vv.hhpo.bookstore.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Book {
-	
+	@Id 	//tietokannan sarake on primary key -tyyppinen
+	@GeneratedValue(strategy=GenerationType.AUTO) //automaattisesti generoituva id-arvo
+	private Long id;
 	private String title;
 	private String author;
 	private int year;
@@ -29,6 +37,14 @@ public class Book {
 	}
 
 	//getterit ja setterit
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 	
 	public String getTitle() {
 		return title;
@@ -72,8 +88,8 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "Book [title=" + title + ", author=" + author + ", year=" + year + ", isbn=" + isbn + ", price=" + price
-				+ "]";
+		return "Book [id=" + id + ", title=" + title + ", author=" + author + ", year=" + year + ", isbn=" + isbn
+				+ ", price=" + price + "]";
 	}
 	
 }
