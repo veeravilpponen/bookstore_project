@@ -21,8 +21,11 @@
 				<td th:text = "${book.year}">year</td>
 				<td th:text = "${book.isbn}">isbn</td>
 				<td th:text = "${book.price}">price</td>
+				<td><a th:href="@{/deletebook/{id}(id=${book.id})}">Delete</a></td>    
+ 				<!-- @{} url expression, /deletebook/{id} polku urlissa -->
 			</tr>
 		</table>
 	</form>
+	<a href="/addbook">Add a new book</a>
 </body>
 </html>
