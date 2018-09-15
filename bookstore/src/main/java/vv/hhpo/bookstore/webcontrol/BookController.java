@@ -25,7 +25,7 @@ public class BookController {
 		return "booklist"; //html
 	}
 	
-	//metodi poistaa tietokannasta valitun kirjan id:n perusteella
+	// metodi poistaa tietokannasta valitun kirjan id:n perusteella
 	@GetMapping("/deletebook/{id}")
 	public String deleteBook(@PathVariable("id") Long bookId) {
 		bookRepository.deleteById(bookId);
@@ -33,18 +33,33 @@ public class BookController {
 		return "redirect:../booklist";
 	}
 	
-	//palauttaa tyhjän lomakkeen, jolla voidaan lisätä uusi kirja
+	// palauttaa tyhjän lomakkeen, jolla voidaan lisätä uusi kirja
 	@RequestMapping(value="/addbook")
     public String addBook(Model model){
     	model.addAttribute("book", new Book());
         return "addbookform";
     }
 	
-	//tallettaa uuden 
+	// tallettaa uuden kirjan
     @PostMapping("/savebook")
     public String saveBook(Book book){
         bookRepository.save(book);
         return "redirect:booklist";
     }
-
+    
+    // päivitetään kirjan tiedot
+  	@RequestMapping(value="/editbook/{id}")
+  	public String editBook(@PathVariable("id") Long bookId, Model model) {
+  		//haetaan valitun kirjan tiedot id:n perusteella
+  		model.addAttribute("bookupdated", bookRepository.findById(bookId));
+  		return "updatebook";
+  	}
+  	/*
+  	// tallettaa päivitetyn kirjan
+    @PostMapping("/saveupdatedbook")
+    public String saveUpdatedBook(Book bookupdated){
+        bookRepository.save(bookupdated);
+        return "redirect:booklist";
+    }
+  	*/ 	
 }
