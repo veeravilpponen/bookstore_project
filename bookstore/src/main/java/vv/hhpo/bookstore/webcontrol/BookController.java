@@ -57,7 +57,7 @@ public class BookController {
     }
     
     // päivitetään kirjan tiedot
-  	@RequestMapping(value="/editbook/{id}")
+  	@RequestMapping(value="/updatebook/{id}")
   	public String editBook(@PathVariable("id") Long bookId, Model model) {
   		//haetaan valitun kirjan tiedot id:n perusteella
   		model.addAttribute("bookupdated", bookRepository.findById(bookId));
