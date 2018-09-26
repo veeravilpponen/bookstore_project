@@ -7,18 +7,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import vv.hhpo.bookstore.model.Book;
 import vv.hhpo.bookstore.model.BookRepository;
+import vv.hhpo.bookstore.model.CategoryRepository;
 
 @Controller
 public class BookController {
 	
-	//lisätään luokkaan repository attribuuttina
-	//attribuutilta voi pyytää tietokantakäsittelyjä, esim delete, save
+	// lisätään luokkaan bookrepository attribuuttina
+	// attribuutilta voi pyytää tietokantakäsittelyjä, esim delete, save
 	@Autowired
 	private BookRepository bookRepository;
 	
-	//haetaan kirjojen tiedot tietokannasta
+	// toinen repository
+	@Autowired
+	private CategoryRepository categoryRepository;;
+	
+	// haetaan kirjojen tiedot tietokannasta
 	@GetMapping("/booklist")
 	public String listBooks(Model model) {
 		model.addAttribute("books", bookRepository.findAll());
@@ -37,10 +43,13 @@ public class BookController {
 	@RequestMapping(value="/addbook")
     public String addBook(Model model){
     	model.addAttribute("book", new Book());
+    	// modelille voi välittää useamman tiedon
+    	// mahdolliset kategoriat pitää hakea tietokannasta
+    	model.addAttribute("categories", categoryRepository.findAll());
         return "addbookform";
     }
 	
-	// tallettaa uuden kirjan
+	// tallettaa kirjan
     @PostMapping("/savebook")
     public String saveBook(Book book){
         bookRepository.save(book);
@@ -52,14 +61,8 @@ public class BookController {
   	public String editBook(@PathVariable("id") Long bookId, Model model) {
   		//haetaan valitun kirjan tiedot id:n perusteella
   		model.addAttribute("bookupdated", bookRepository.findById(bookId));
+  		model.addAttribute("categories", categoryRepository.findAll());
   		return "updatebook";
   	}
-  	/*
-  	// tallettaa päivitetyn kirjan
-    @PostMapping("/saveupdatedbook")
-    public String saveUpdatedBook(Book bookupdated){
-        bookRepository.save(bookupdated);
-        return "redirect:booklist";
-    }
-  	*/ 	
+  	
 }

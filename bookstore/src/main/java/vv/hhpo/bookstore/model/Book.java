@@ -4,9 +4,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Book {
+	
 	@Id 	//tietokannan sarake on primary key -tyyppinen
 	@GeneratedValue(strategy=GenerationType.AUTO) //automaattisesti generoituva id-arvo
 	private Long id;
@@ -15,6 +18,9 @@ public class Book {
 	private int year;
 	private String isbn;
 	private double price;
+    @ManyToOne  	// Book(*) - Category(1), name = viiteavain
+    @JoinColumn(name = "categoryId")
+    private Category category;
 	
 	//konstruktorit
 	
@@ -25,15 +31,17 @@ public class Book {
 		this.year = 0;
 		this.isbn = null;
 		this.price = 0;
+		this.category = null;
 	}
 	
-	public Book(String title, String author, int year, String isbn, double price) {
+	public Book(String title, String author, int year, String isbn, double price, Category category) {
 		super();
 		this.title = title;
 		this.author = author;
 		this.year = year;
 		this.isbn = isbn;
 		this.price = price;
+		this.category = category;
 	}
 
 	//getterit ja setterit
@@ -86,10 +94,23 @@ public class Book {
 		this.price = price;
 	}
 
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", title=" + title + ", author=" + author + ", year=" + year + ", isbn=" + isbn
-				+ ", price=" + price + "]";
+		if (this.category != null)
+			return "Book [id=" + id + ", title=" + title + ", author=" + author + ", year=" + year + ", isbn=" + isbn
+					+ ", price=" + price + " category =" + this.getCategory() + "]";		
+		else
+			return "Book [id=" + id + ", title=" + title + ", author=" + author + ", year=" + year + ", isbn=" + isbn
+					+ ", price=" + price + "]";
+		
 	}
 	
 }

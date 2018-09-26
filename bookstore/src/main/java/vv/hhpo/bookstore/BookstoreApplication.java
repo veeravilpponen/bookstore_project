@@ -6,8 +6,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
 import vv.hhpo.bookstore.model.Book;
 import vv.hhpo.bookstore.model.BookRepository;
+import vv.hhpo.bookstore.model.Category;
+import vv.hhpo.bookstore.model.CategoryRepository;
 
 @SpringBootApplication
 public class BookstoreApplication {
@@ -19,12 +22,21 @@ public class BookstoreApplication {
 	}
 	
 	@Bean
-	public CommandLineRunner bookDemo(BookRepository bookRepository) {
+	public CommandLineRunner bookDemo(BookRepository bookRepository, CategoryRepository categoryRepository) {
 		return (args) -> {
-			log.info("save these books");
-			//ajetaan tietokantaan
-			bookRepository.save(new Book("Tie Myrskyluodolle", "Anni Blomqvist", 1974, "978-95-1208-3", 15.90)); 
-			bookRepository.save(new Book("Sarasvatin hiekkaa", "Risto Isomäki", 2005, "951-31-3422-9", 26.90));	
+			log.info("save these books & categories");
+			
+			//ajetaan tietokantaan kategorioita
+			categoryRepository.save(new Category("Tietokirja"));
+			categoryRepository.save(new Category("Sarjakuva"));
+			categoryRepository.save(new Category("Kaunokirja"));
+			
+			//ajetaan tietokantaan kirjoja
+			bookRepository.save(new Book("Tie Myrskyluodolle", "Anni Blomqvist", 1974, "978-95-1208-3", 15.90, categoryRepository.findByName("Kaunokirja").get(0))); 
+			bookRepository.save(new Book("Sarasvatin hiekkaa", "Risto Isomäki", 2005, "951-31-3422-9", 26.90, categoryRepository.findByName("Kaunokirja").get(0)));
+			bookRepository.save(new Book("Aku Ankan Taskukirja - Maalitykki", "Useita", 2016, "891-21-3982-134", 9.90, categoryRepository.findByName("Sarjakuva").get(0)));
+			bookRepository.save(new Book("Verkkorikokset", "Ari Haasio", 2017, "978-95-1692-6677", 41.90, categoryRepository.findByName("Tietokirja").get(0)));
+			
 			
 			log.info("fetch books");
 			for (Book book : bookRepository.findAll()) {

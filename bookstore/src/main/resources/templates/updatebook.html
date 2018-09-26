@@ -4,23 +4,39 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" />
 	<title>Update book</title>
+	<style>
+		tr td {
+		  display: block;
+		  padding: 10px 20px;
+		}
+		tr {
+		  border: 1px solid black;
+		}
+	</style>
 </head>
 <body>
-	<h1>Update book information</h1>
-	<form action="#" th:action="@{/savebook}" th:object="${bookupdated}" method="post">
-		<table>
-			<tr>
-				<td><input type="hidden" th:field="${bookupdated.id}" class="form-control"/></td>
-				<td>Author: <input type="text" th:field="${bookupdated.author}" /> </td>
-				<td>Title: <input type="text" th:field="${bookupdated.title}" /> </td>
-				<td>Year: <input type="text" th:field="${bookupdated.year}" /> </td>
-				<td>ISBN: <input type="text" th:field="${bookupdated.isbn}" /> </td>
-				<td>Price: <input type="text" th:field="${bookupdated.price}" /> </td>
-			</tr>
-		</table>
-		<br />
-		<input type="submit" value="Update"/>
-		<a href="/booklist">Cancel</a>
-	</form>
+	<div class="container">
+		<h1>Update book information</h1>
+		<form action="#" th:action="@{../savebook}" th:object="${bookupdated}" method="post">
+			<table>
+				<tr>
+					<td><input type="hidden" th:field="${bookupdated.id}" class="form-control"/></td>
+					<td>Author: <input type="text" th:field="${bookupdated.author}" /> </td>
+					<td>Title: <input type="text" th:field="${bookupdated.title}" /> </td>
+					<td>Year: <input type="text" th:field="${bookupdated.year}" /> </td>
+					<td>ISBN: <input type="text" th:field="${bookupdated.isbn}" /> </td>
+					<td>Price: <input type="text" th:field="${bookupdated.price}" /> </td>
+					<td>Category: 
+						<select th:field="${bookupdated.category}" class="form-control">
+		       				<option th:each="cat: ${categories}" th:value="${cat.categoryId}" th:text="${cat.name}"></option>
+		    			</select>
+	    			</td>
+				</tr>
+			</table>
+			<br />
+			<input class="btn btn-success" type="submit" value="Update"/>
+			<a class="btn btn-basic" href="/booklist">Cancel</a>
+		</form>
+	</div>
 </body>
 </html>
