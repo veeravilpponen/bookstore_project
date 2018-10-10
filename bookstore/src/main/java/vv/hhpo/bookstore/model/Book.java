@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Book {
 	
@@ -19,6 +21,7 @@ public class Book {
 	private String isbn;
 	private double price;
     @ManyToOne  	// Book(*) - Category(1), name = viiteavain
+    @JsonIgnore // kun muunnetaan olio json-muotoon, niin jätä pois departmentid, ettei synny ikuista luuppia
     @JoinColumn(name = "categoryId")
     private Category category;
 	
