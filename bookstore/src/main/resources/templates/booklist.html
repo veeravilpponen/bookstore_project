@@ -32,7 +32,8 @@
 					<th>ISBN</th>
 					<th>Price</th>
 					<th>Category</th>
-					<th sec:authorize="hasRole('ADMIN')"></th>
+					<!-- hasRole muutettu hasAuthorityksi -->
+					<th sec:authorize="hasAuthority('ADMIN')"></th>
 					<th></th>
 				</tr>
 				<tr th:each = "book : ${books}">
@@ -42,7 +43,7 @@
 					<td th:text = "${book.isbn}">isbn</td>
 					<td th:text = "${book.price}">price</td>
 					<td th:text = "${book.category.name}">category</td>
-					<td sec:authorize="hasRole('ADMIN')"><a class="btn btn-danger" th:href="@{/deletebook/{id}(id=${book.id})}">Delete</a></td>    
+					<td sec:authorize="hasAuthority('ADMIN')"><a class="btn btn-danger" th:href="@{/deletebook/{id}(id=${book.id})}">Delete</a></td>    
 	 				<!-- @{} url expression, /deletebook/{id} polku urlissa -->
 	 				<td><a class="btn btn-warning" th:href="@{/updatebook/{id}(id=${book.id})}">Edit</a></td>
 				</tr>

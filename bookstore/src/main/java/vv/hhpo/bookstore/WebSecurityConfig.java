@@ -12,13 +12,20 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+import vv.hhpo.bookstore.webcontrol.UserDetailServiceImpl;
+
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Override
+	@Autowired
+	private UserDetailServiceImpl userDetailsService;
+	
+	@Override
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
@@ -33,6 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
     }
 
+    /*
     @Bean
     @Override
     public UserDetailsService userDetailsService() {
@@ -55,4 +63,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	
         return new InMemoryUserDetailsManager(users);
     }
+    */
+    
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+    }
+    
 }
